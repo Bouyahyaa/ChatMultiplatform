@@ -1,6 +1,10 @@
 package com.bouyahya.chatmultiplatform.di
 
 import com.bouyahya.chatmultiplatform.core.network.ConnectivityStatus
+import com.bouyahya.chatmultiplatform.data.ChatMultiplatformRepositoryImpl
+import com.bouyahya.chatmultiplatform.domain.repositories.ChatMultiplatformRepository
+import com.bouyahya.chatmultiplatform.domain.usecases.ChatMultiplatformUseCase
+import com.bouyahya.chatmultiplatform.presentation.ChatMultiplatformViewModel
 import io.ktor.client.engine.darwin.*
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
@@ -11,10 +15,29 @@ actual fun platformModule() = module {
         Darwin.create()
     }
 
-    //single or factory can be used to get a view-model object for swiftui
     single {
         ConnectivityStatus(null)
     }
+
+    single<ChatMultiplatformRepository> {
+        ChatMultiplatformRepositoryImpl(
+            httpClient = get()
+        )
+    }
+
+    single {
+        ChatMultiplatformUseCase(chatMultiplatformRepository = get())
+    }
+
+    single {
+        ChatMultiplatformViewModel(
+            chatMultiplatformUseCase = get()
+        )
+    }
+}
+
+object ViewModels : KoinComponent {
+    fun getChatMultiplatformViewModel() = get<ChatMultiplatformViewModel>()
 }
 
 
