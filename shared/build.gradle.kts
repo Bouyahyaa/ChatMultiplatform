@@ -32,7 +32,6 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api("dev.icerock.moko:socket-io:0.4.0")
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)
