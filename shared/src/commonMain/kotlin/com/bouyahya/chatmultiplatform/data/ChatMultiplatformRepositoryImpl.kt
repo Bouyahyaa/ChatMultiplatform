@@ -20,12 +20,6 @@ class ChatMultiplatformRepositoryImpl(
             port = 8080,
             path = "/chat"
         )
-        while (true) {
-            val frame = session?.incoming?.receive()
-            if (frame is Frame.Text) {
-                println(frame.readText())
-            }
-        }
     }
 
     override suspend fun send(message: String) {
