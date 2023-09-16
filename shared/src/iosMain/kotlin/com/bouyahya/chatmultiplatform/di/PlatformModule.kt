@@ -1,6 +1,5 @@
 package com.bouyahya.chatmultiplatform.di
 
-import com.bouyahya.chatmultiplatform.core.network.ConnectivityStatus
 import com.bouyahya.chatmultiplatform.data.ChatMultiplatformRepositoryImpl
 import com.bouyahya.chatmultiplatform.domain.repositories.ChatMultiplatformRepository
 import com.bouyahya.chatmultiplatform.domain.usecases.ChatMultiplatformUseCase
@@ -13,10 +12,6 @@ import org.koin.dsl.module
 actual fun platformModule() = module {
     single {
         Darwin.create()
-    }
-
-    single {
-        ConnectivityStatus(null)
     }
 
     single<ChatMultiplatformRepository> {
@@ -38,9 +33,4 @@ actual fun platformModule() = module {
 
 object ViewModels : KoinComponent {
     fun getChatMultiplatformViewModel() = get<ChatMultiplatformViewModel>()
-}
-
-
-object SharedUtils : KoinComponent {
-    fun getConnectivityStatus() = get<ConnectivityStatus>()
 }

@@ -8,7 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.bouyahya.chatmultiplatform.App
+import com.bouyahya.chatmultiplatform.presentation.ChatMultiplatformScreen
 import org.koin.androidx.compose.getViewModel
 
 class MainActivity : ComponentActivity() {
@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    App(
+                    ChatMultiplatformScreen(
                         chatMultiplatformViewModel = getViewModel()
                     )
                 }
