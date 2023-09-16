@@ -13,4 +13,10 @@ class ChatMultiplatformViewModel(
             chatMultiplatformUseCase.invoke()
         }
     }
+
+    fun sendMessage() {
+        viewModelScope.launch {
+            chatMultiplatformUseCase.invoke(message = "Hello!")
+        }
+    }
 }

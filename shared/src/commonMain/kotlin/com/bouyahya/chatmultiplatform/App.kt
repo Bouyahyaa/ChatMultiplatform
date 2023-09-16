@@ -1,5 +1,6 @@
 package com.bouyahya.chatmultiplatform
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Text
@@ -14,7 +15,9 @@ fun App(
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Text(
-            modifier = Modifier.align(Alignment.Center),
+            modifier = Modifier.align(Alignment.Center).clickable {
+                chatMultiplatformViewModel.sendMessage()
+            },
             text = "Chat Multiplatform"
         )
     }

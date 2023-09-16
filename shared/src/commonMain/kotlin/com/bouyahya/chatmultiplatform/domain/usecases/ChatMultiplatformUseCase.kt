@@ -8,4 +8,8 @@ class ChatMultiplatformUseCase(
     suspend operator fun invoke() {
         chatMultiplatformRepository.chat()
     }
+
+    suspend operator fun invoke(message: String) {
+        chatMultiplatformRepository.send(message)
+    }
 }
