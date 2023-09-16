@@ -1,11 +1,14 @@
 package com.bouyahya.chatmultiplatform.data
 
+import com.bouyahya.chatmultiplatform.domain.models.MessageData
 import com.bouyahya.chatmultiplatform.domain.models.User
 import com.bouyahya.chatmultiplatform.domain.repositories.ChatMultiplatformRepository
 import io.ktor.client.*
 import io.ktor.client.plugins.websocket.*
 import io.ktor.http.*
 import io.ktor.websocket.*
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class ChatMultiplatformRepositoryImpl(
     private val httpClient: HttpClient,
@@ -24,7 +27,7 @@ class ChatMultiplatformRepositoryImpl(
         )
     }
 
-    override suspend fun send(user: User, message: String) {
-        user.session.send(message)
+    override suspend fun send(user: User, messageData: MessageData) {
+        user.session.send(Json.encodeToString(messageData))
     }
 }

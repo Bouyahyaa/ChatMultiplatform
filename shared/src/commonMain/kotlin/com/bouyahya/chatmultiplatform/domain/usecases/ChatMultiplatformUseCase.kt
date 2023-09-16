@@ -1,6 +1,7 @@
 package com.bouyahya.chatmultiplatform.domain.usecases
 
 import com.bouyahya.chatmultiplatform.core.utils.Resource
+import com.bouyahya.chatmultiplatform.domain.models.MessageData
 import com.bouyahya.chatmultiplatform.domain.models.User
 import com.bouyahya.chatmultiplatform.domain.repositories.ChatMultiplatformRepository
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +23,7 @@ class ChatMultiplatformUseCase(
         }
     }
 
-    suspend operator fun invoke(user: User, message: String) {
-        chatMultiplatformRepository.send(user, message)
+    suspend operator fun invoke(user: User, messageData: MessageData) {
+        chatMultiplatformRepository.send(user, messageData)
     }
 }
