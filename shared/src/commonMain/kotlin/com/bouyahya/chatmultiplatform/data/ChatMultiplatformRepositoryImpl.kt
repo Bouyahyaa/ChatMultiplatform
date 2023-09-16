@@ -10,19 +10,21 @@ import io.ktor.websocket.*
 class ChatMultiplatformRepositoryImpl(
     private val httpClient: HttpClient,
 ) : ChatMultiplatformRepository {
-    private var session: WebSocketSession? = null
-    private var user: User? = null
-    override suspend fun chat() {
+    override suspend fun connect(username: String, userId: Long): User {
         println("ChatMultiplatformIsHere")
-        session = httpClient.webSocketSession(
-            method = HttpMethod.Get,
-            host = "192.168.120.62",
-            port = 8080,
-            path = "/chat"
+        return User(
+            id = userId,
+            username = username,
+            session = httpClient.webSocketSession(
+                method = HttpMethod.Get,
+                host = "192.168.120.62",
+                port = 8080,
+                path = "/chat"
+            )
         )
     }
 
-    override suspend fun send(message: String) {
-        session?.send(message)
+    override suspend fun send(user: User, message: String) {
+        user.session.send(message)
     }
 }

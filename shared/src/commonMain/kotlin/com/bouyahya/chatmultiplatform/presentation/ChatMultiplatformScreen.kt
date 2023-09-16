@@ -19,7 +19,7 @@ fun ChatMultiplatformScreen(
 ) {
     val state by chatMultiplatformViewModel.state.collectAsState()
 
-    if (state.isConnected) {
+    if (state.user != null) {
         Box(modifier = Modifier.fillMaxSize()) {
             Text(
                 modifier = Modifier.align(Alignment.Center).clickable {
@@ -36,7 +36,7 @@ fun ChatMultiplatformScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 TextField(
-                    value = state.username,
+                    value = state.usernameText,
                     onValueChange = {
                         chatMultiplatformViewModel.onEvent(
                             ChatMultiplatformEvent.OnChangeUserName(
@@ -47,9 +47,9 @@ fun ChatMultiplatformScreen(
                 )
 
                 Button(
-                    enabled = state.username.isNotEmpty(),
+                    enabled = state.usernameText.isNotEmpty(),
                     onClick = {
-                        chatMultiplatformViewModel.onEvent(ChatMultiplatformEvent.Connect(state.username))
+                        chatMultiplatformViewModel.onEvent(ChatMultiplatformEvent.Connect(state.usernameText))
                     }
                 ) {
                     Text(

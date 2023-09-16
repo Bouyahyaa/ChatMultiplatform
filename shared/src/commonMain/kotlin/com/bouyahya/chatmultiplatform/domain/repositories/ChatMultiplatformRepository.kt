@@ -1,7 +1,9 @@
 package com.bouyahya.chatmultiplatform.domain.repositories
 
-interface ChatMultiplatformRepository {
-    suspend fun chat()
+import com.bouyahya.chatmultiplatform.domain.models.User
 
-    suspend fun send(message: String)
+interface ChatMultiplatformRepository {
+    suspend fun connect(username: String, userId: Long): User
+
+    suspend fun send(user: User, message: String)
 }
