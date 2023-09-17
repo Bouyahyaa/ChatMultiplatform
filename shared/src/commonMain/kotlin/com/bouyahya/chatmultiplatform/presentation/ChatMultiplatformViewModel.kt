@@ -39,7 +39,13 @@ class ChatMultiplatformViewModel(
 
             is ChatMultiplatformEvent.SendMessage -> {
                 viewModelScope.launch {
-                    chatMultiplatformUseCase.invoke(_state.value.user!!, event.messageData)
+                    val user = _state.value.user
+                    val messageData = MessageData(
+                        id = abs((0..999999999999).random()),
+                        message = event.messageText,
+                        senderId = user!!.id
+                    )
+                    chatMultiplatformUseCase.invoke(user.session, messageData)
                 }
             }
         }
@@ -84,7 +90,8 @@ class ChatMultiplatformViewModel(
                         val messageData = Json.decodeFromString<MessageData>(frame.readText())
                         _state.update {
                             it.copy(
-                                messages = _state.value.messages.plus(messageData)
+                                messages = _state.value.messages.plus(messageData),
+                                messageText = ""
                             )
                         }
                     }

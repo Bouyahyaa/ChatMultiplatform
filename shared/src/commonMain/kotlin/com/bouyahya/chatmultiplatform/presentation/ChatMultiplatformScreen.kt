@@ -153,14 +153,9 @@ fun ChatMultiplatformScreen(
                     IconButton(
                         onClick = {
                             if (state.messageText.isNotEmpty()) {
-                                val messageData = MessageData(
-                                    id = abs((0..999999999999).random()),
-                                    message = state.messageText,
-                                    senderId = state.user!!.id
-                                )
                                 chatMultiplatformViewModel.onEvent(
                                     ChatMultiplatformEvent.SendMessage(
-                                        messageData
+                                        state.messageText
                                     )
                                 )
                             }
@@ -192,7 +187,7 @@ fun ChatMultiplatformScreen(
                 )
 
                 Button(
-                    enabled = state.usernameText.isNotEmpty(),
+                    enabled = state.usernameText.isNotBlank(),
                     onClick = {
                         chatMultiplatformViewModel.onEvent(ChatMultiplatformEvent.Connect(state.usernameText))
                     }

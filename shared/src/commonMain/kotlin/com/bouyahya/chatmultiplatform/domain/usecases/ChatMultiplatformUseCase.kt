@@ -4,6 +4,7 @@ import com.bouyahya.chatmultiplatform.core.utils.Resource
 import com.bouyahya.chatmultiplatform.domain.models.MessageData
 import com.bouyahya.chatmultiplatform.domain.models.User
 import com.bouyahya.chatmultiplatform.domain.repositories.ChatMultiplatformRepository
+import io.ktor.websocket.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -23,7 +24,7 @@ class ChatMultiplatformUseCase(
         }
     }
 
-    suspend operator fun invoke(user: User, messageData: MessageData) {
-        chatMultiplatformRepository.send(user, messageData)
+    suspend operator fun invoke(session: WebSocketSession, messageData: MessageData) {
+        chatMultiplatformRepository.send(session, messageData)
     }
 }

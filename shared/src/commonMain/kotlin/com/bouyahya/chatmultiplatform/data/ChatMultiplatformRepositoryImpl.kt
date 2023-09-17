@@ -20,14 +20,14 @@ class ChatMultiplatformRepositoryImpl(
             username = username,
             session = httpClient.webSocketSession(
                 method = HttpMethod.Get,
-                host = "192.168.120.62",
+                host = "172.20.10.5",
                 port = 8080,
                 path = "/chat"
             )
         )
     }
 
-    override suspend fun send(user: User, messageData: MessageData) {
-        user.session.send(Json.encodeToString(messageData))
+    override suspend fun send(session: WebSocketSession, messageData: MessageData) {
+        session.send(Json.encodeToString(messageData))
     }
 }
