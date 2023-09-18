@@ -12,7 +12,7 @@ fun ChatMultiplatformScreen(
 ) {
     val state by chatMultiplatformViewModel.state.collectAsState()
 
-    if (state.user != null) {
+    if (state.currentUser != null) {
         ChatComponent(
             state = state,
             chatMultiplatformViewModel = chatMultiplatformViewModel

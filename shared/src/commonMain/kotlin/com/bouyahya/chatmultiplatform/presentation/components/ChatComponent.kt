@@ -43,12 +43,12 @@ fun ChatComponent(
                         Row(
                             modifier = Modifier
                                 .align(
-                                    if (message.senderId == state.user!!.id)
+                                    if (message.senderId == state.currentUser!!.id)
                                         Alignment.CenterEnd else
                                         Alignment.CenterStart
                                 ),
                         ) {
-                            if (message.senderId == state.user.id) {
+                            if (message.senderId == state.currentUser.id) {
                                 SenderComponent(
                                     message = message,
                                     state = state

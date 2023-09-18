@@ -32,7 +32,7 @@ fun ReceiverComponent(
     Text(
         modifier = Modifier
             .background(
-                color = if (message.senderId == state.user!!.id)
+                color = if (message.senderId == state.currentUser!!.id)
                     Color.Blue.copy(
                         alpha = 0.5f
                     ) else
@@ -41,7 +41,7 @@ fun ReceiverComponent(
             )
             .padding(10.dp),
         text = message.message,
-        color = if (message.senderId == state.user.id)
+        color = if (message.senderId == state.currentUser.id)
             Color.White else
             Color.Black
     )

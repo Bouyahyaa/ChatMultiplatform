@@ -2,7 +2,6 @@ package com.bouyahya.chatmultiplatform.domain.usecases
 
 import com.bouyahya.chatmultiplatform.core.utils.Resource
 import com.bouyahya.chatmultiplatform.domain.models.MessageData
-import com.bouyahya.chatmultiplatform.domain.models.User
 import com.bouyahya.chatmultiplatform.domain.repositories.ChatMultiplatformRepository
 import io.ktor.websocket.*
 import kotlinx.coroutines.flow.Flow
@@ -14,13 +13,13 @@ class ChatMultiplatformUseCase(
     suspend operator fun invoke(
         username: String,
         userId: Long,
-    ): Flow<Resource<User>> = flow {
+    ): Flow<Resource<WebSocketSession>> = flow {
         try {
-            emit(Resource.Loading<User>())
-            val user = chatMultiplatformRepository.connect(username, userId)
-            emit(Resource.Success<User>(user))
+            emit(Resource.Loading<WebSocketSession>())
+            val webSocketSession = chatMultiplatformRepository.connect(username, userId)
+            emit(Resource.Success<WebSocketSession>(webSocketSession))
         } catch (e: Exception) {
-            emit(Resource.Error<User>(e.message ?: "An unexpected error occur"))
+            emit(Resource.Error<WebSocketSession>(e.message ?: "An unexpected error occur"))
         }
     }
 

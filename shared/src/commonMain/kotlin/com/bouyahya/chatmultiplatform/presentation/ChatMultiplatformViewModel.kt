@@ -2,6 +2,7 @@ package com.bouyahya.chatmultiplatform.presentation
 
 import com.bouyahya.chatmultiplatform.core.utils.Resource
 import com.bouyahya.chatmultiplatform.domain.models.MessageData
+import com.bouyahya.chatmultiplatform.domain.models.User
 import com.bouyahya.chatmultiplatform.domain.usecases.ChatMultiplatformUseCase
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import io.ktor.websocket.*
@@ -39,13 +40,12 @@ class ChatMultiplatformViewModel(
 
             is ChatMultiplatformEvent.SendMessage -> {
                 viewModelScope.launch {
-                    val user = _state.value.user
                     val messageData = MessageData(
                         id = abs((0..999999999999).random()),
                         message = event.messageText,
-                        senderId = user!!.id
+                        senderId = _state.value.currentUser!!.id
                     )
-                    chatMultiplatformUseCase.invoke(user.session, messageData)
+                    chatMultiplatformUseCase.invoke(_state.value.session!!, messageData)
                 }
             }
         }
@@ -53,16 +53,23 @@ class ChatMultiplatformViewModel(
 
     private fun connect() {
         viewModelScope.launch {
+            val username = _state.value.usernameText
+            val userId = abs((0..999999999999).random())
             chatMultiplatformUseCase.invoke(
-                username = _state.value.usernameText,
-                userId = abs((0..999999999999).random()),
+                username = username,
+                userId = userId,
             ).collect { result ->
                 when (result) {
                     is Resource.Success -> {
                         println("Connection Success")
+                        val currentUser = User(
+                            id = userId,
+                            username = username
+                        )
                         _state.update {
                             it.copy(
-                                user = result.data,
+                                currentUser = currentUser,
+                                session = result.data,
                             )
                         }
                         receiveMessages()
@@ -83,7 +90,7 @@ class ChatMultiplatformViewModel(
     private fun receiveMessages() {
         viewModelScope.launch {
             while (true) {
-                val frame = _state.value.user?.session?.incoming?.receive()
+                val frame = _state.value.session?.incoming?.receive()
                 if (frame is Frame.Text) {
                     println(frame.readText())
                     if (frame.readText() != "You are connected!") {
