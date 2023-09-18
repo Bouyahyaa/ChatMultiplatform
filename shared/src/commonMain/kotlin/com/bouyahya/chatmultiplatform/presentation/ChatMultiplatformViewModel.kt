@@ -92,14 +92,23 @@ class ChatMultiplatformViewModel(
             while (true) {
                 val frame = _state.value.session?.incoming?.receive()
                 if (frame is Frame.Text) {
-                    println(frame.readText())
-                    if (frame.readText() != "You are connected!") {
-                        val messageData = Json.decodeFromString<MessageData>(frame.readText())
-                        _state.update {
-                            it.copy(
-                                messages = _state.value.messages.plus(messageData),
-                                messageText = ""
-                            )
+                    val data = frame.readText()
+                    println(data)
+                    if (data != "You are connected!") {
+                        if (data[0] == '[') {
+                            val users = Json.decodeFromString<List<User>>(data)
+                            _state.update {
+                                it.copy(connectedUsers = users)
+                            }
+                            println(_state.value.connectedUsers)
+                        } else {
+                            val messageData = Json.decodeFromString<MessageData>(data)
+                            _state.update {
+                                it.copy(
+                                    messages = _state.value.messages.plus(messageData),
+                                    messageText = ""
+                                )
+                            }
                         }
                     }
                 }
