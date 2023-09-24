@@ -1,5 +1,7 @@
 package com.bouyahya.chatmultiplatform.presentation
 
+import com.bouyahya.chatmultiplatform.core.Constants.Images
+import com.bouyahya.chatmultiplatform.core.Constants.toFormattedUrlNav
 import com.bouyahya.chatmultiplatform.core.utils.Resource
 import com.bouyahya.chatmultiplatform.domain.models.MessageData
 import com.bouyahya.chatmultiplatform.domain.models.User
@@ -55,16 +57,19 @@ class ChatMultiplatformViewModel(
         viewModelScope.launch {
             val username = _state.value.usernameText
             val userId = abs((0..999999999999).random())
+            val image = Images.random()
             chatMultiplatformUseCase.invoke(
                 username = username,
                 userId = userId,
+                profilePicture = image.toFormattedUrlNav()
             ).collect { result ->
                 when (result) {
                     is Resource.Success -> {
                         println("Connection Success")
                         val currentUser = User(
                             id = userId,
-                            username = username
+                            username = username,
+                            profileImage = image
                         )
                         _state.update {
                             it.copy(

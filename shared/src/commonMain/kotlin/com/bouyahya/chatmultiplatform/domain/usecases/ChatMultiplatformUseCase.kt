@@ -13,10 +13,12 @@ class ChatMultiplatformUseCase(
     suspend operator fun invoke(
         username: String,
         userId: Long,
+        profilePicture: String,
     ): Flow<Resource<WebSocketSession>> = flow {
         try {
             emit(Resource.Loading<WebSocketSession>())
-            val webSocketSession = chatMultiplatformRepository.connect(username, userId)
+            val webSocketSession =
+                chatMultiplatformRepository.connect(username, userId, profilePicture)
             emit(Resource.Success<WebSocketSession>(webSocketSession))
         } catch (e: Exception) {
             emit(Resource.Error<WebSocketSession>(e.message ?: "An unexpected error occur"))

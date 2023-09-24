@@ -39,6 +39,7 @@ kotlin {
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
                 implementation("org.jetbrains.kotlinx:atomicfu:0.17.3")
+                api("io.github.qdsfdhvh:image-loader:1.6.7")
                 with(Ktor) {
                     implementation(webSocketClient)
                     implementation(clientCore)
@@ -105,7 +106,7 @@ kotlin {
 
 android {
     namespace = "com.bouyahya.chatmultiplatform"
-    compileSdk = 33
+    compileSdk = 34
     defaultConfig {
         minSdk = 24
     }

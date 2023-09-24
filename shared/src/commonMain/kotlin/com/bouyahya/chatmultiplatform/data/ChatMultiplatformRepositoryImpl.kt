@@ -12,13 +12,17 @@ import kotlinx.serialization.json.Json
 class ChatMultiplatformRepositoryImpl(
     private val httpClient: HttpClient,
 ) : ChatMultiplatformRepository {
-    override suspend fun connect(username: String, userId: Long): WebSocketSession {
+    override suspend fun connect(
+        username: String,
+        userId: Long,
+        profileImage: String,
+    ): WebSocketSession {
         println("ChatMultiplatformIsHere")
         return httpClient.webSocketSession(
             method = HttpMethod.Get,
-            host = "172.20.10.8",
+            host = "192.168.242.204",
             port = 8080,
-            path = "/chat/${userId}/${username}"
+            path = "/chat/${userId}/${username}/${profileImage}"
         )
     }
 

@@ -9,16 +9,16 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bouyahya.chatmultiplatform.domain.models.User
+import com.seiko.imageloader.rememberImagePainter
 
 @Composable
 fun ConnectedUsersComponent(
@@ -43,9 +43,10 @@ fun ConnectedUsersComponent(
                 ) {
                     Box(modifier = Modifier.fillMaxWidth()) {
                         Image(
-                            modifier = Modifier.size(50.dp),
-                            imageVector = Icons.Default.Person,
-                            contentDescription = ""
+                            modifier = Modifier.size(50.dp).clip(CircleShape),
+                            painter = rememberImagePainter(participant.profileImage),
+                            contentDescription = "",
+                            contentScale = ContentScale.Crop
                         )
                         Box(
                             modifier = Modifier
