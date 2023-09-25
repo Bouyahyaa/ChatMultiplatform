@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,12 +26,21 @@ fun ReceiverComponent(
     state: ChatMultiplatformState,
 ) {
 
-    Image(
-        modifier = Modifier.size(50.dp).clip(CircleShape),
-        painter = rememberImagePainter(state.connectedUsers.first { it.id == message.senderId }.profileImage),
-        contentDescription = "profileImage",
-        contentScale = ContentScale.Crop
-    )
+    if (state.connectedUsers.map { it.id }.contains(message.senderId)) {
+        Image(
+            modifier = Modifier.size(50.dp).clip(CircleShape),
+            painter = rememberImagePainter(state.connectedUsers.first { it.id == message.senderId }.profileImage),
+            contentDescription = "profileImage",
+            contentScale = ContentScale.Crop
+        )
+    } else {
+        Image(
+            modifier = Modifier.size(50.dp),
+            imageVector = Icons.Default.Person,
+            contentDescription = "profileImage",
+        )
+    }
+
 
     Spacer(modifier = Modifier.size(10.dp))
 
