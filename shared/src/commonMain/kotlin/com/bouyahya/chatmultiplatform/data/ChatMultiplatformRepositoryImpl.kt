@@ -20,7 +20,7 @@ class ChatMultiplatformRepositoryImpl(
         println("ChatMultiplatformIsHere")
         return httpClient.webSocketSession(
             method = HttpMethod.Get,
-            host = "192.168.120.62",
+            host = "",
             port = 8080,
             path = "/chat/${userId}/${username}/${profileImage}"
         )
